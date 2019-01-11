@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>后台登录</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="stylesheet" href="__STATIC__/css/font.css">
+    <link rel="stylesheet" href="__STATIC__/css/xadmin.css">
+    <link rel="stylesheet" href="__STATIC__/css/uploadify.css">
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/lib/layui/layui.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/xadmin.js"></script>
+  </head>
+  <body>
+    <div class="x-body">
+    <form class="layui-form">
+        <input type="hidden" name="time" value="<?php echo time()?>">
+        <input type="hidden" name="click" value="1">
+            <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    <span class="x-red">*</span>职位名称
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="title" name="title" required="" lay-verify="required"
+                    autocomplete="off" class="layui-input" maxlength="10">
+                </div>
+                 <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>10个字之内
+              </div>
+            </div> 
+            <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>选择分类
+              </label>
+              <div class="layui-input-inline">
+                  <select id="gid" name="gid" class="valid">
+                    <option value="1">管培生</option>
+                    <option value="2">MBA招聘</option>
+                    <option value="3">全球招聘</option>
+                    <option value="4">校园招聘</option>
+                    <option value="5">社会招聘</option>
+                    <option value="6">实习生</option>
+                  </select>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>工作地点
+              </label>
+              <div class="layui-input-inline">
+                  <select id="addr" name="addr" class="valid">
+                    <option value="1">上海</option>
+                    <option value="2">昆山</option>
+                  </select>
+              </div>
+          </div>
+           <div class="layui-form-item layui-form-text">
+              <label for="desc" class="layui-form-label">
+                  岗位职责
+              </label>
+              <div class="layui-input-block">
+                  <textarea placeholder="请输入内容" id="duty" name="duty" class="layui-textarea"></textarea>
+              </div>
+          </div>
+           <div class="layui-form-item layui-form-text">
+              <label for="desc" class="layui-form-label">
+                  任职资格
+              </label>
+              <div class="layui-input-block">
+                  <textarea placeholder="请输入内容" id="qua" name="qua" class="layui-textarea"></textarea>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  增加
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+    layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+          //监听提交
+            form.on('submit(add)', function(data){
+            //发异步，把数据提交给php
+              var data = $('form').serialize();
+              $.ajax({
+                  type: 'POST',
+                  async: true,
+                  url: '{:url("job/JobAdd")}',
+                  data:{data},
+                  dataType: 'json',
+                  success: function(data){
+                       layer.alert("增加成功", {icon: 6},function () {
+                      // 获得frame索引
+                      var index = parent.layer.getFrameIndex(window.name);
+                      //关闭当前frame
+                      parent.layer.close(index);
+                  });
+                }
+              });
+            return false;
+          });
+        });
+    </script>
+  </body>
+
+</html>
